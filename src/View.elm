@@ -1,10 +1,11 @@
 module View exposing (view)
 
-import Html exposing (Html)
+import Html exposing (Html,div)
 import Html.Attributes exposing (class)
+import Html.Events
 import Svg exposing (Svg,Attribute)
 import Svg.Attributes as Attributes exposing (x,y,width,height,fill,fontFamily,textAnchor)
-import Svg.Events exposing (onClick)
+import Svg.Events
 import Time exposing (Time)
 import String
 
@@ -21,7 +22,7 @@ view : Model -> Html Msg
 view {ui,scene,secondsPassed} =
   case ui.screen of
     StartScreen ->
-      renderStartScreen ui.windowSize secondsPassed
+      renderStartScreen ui.windowSize
 
     PlayScreen ->
       renderPlayScreen ui.windowSize scene
@@ -30,40 +31,37 @@ view {ui,scene,secondsPassed} =
       renderGameoverScreen ui.windowSize
 
 
-renderStartScreen : (Int,Int) -> Int -> Html.Html Msg
-renderStartScreen (w,h) secondsPassed =
+renderStartScreen : (Int,Int) -> Html Msg
+renderStartScreen (w,h) =
   let
-      clickHandler = onClick StartGame
-      screenAttrs = [ clickHandler ] ++ (svgAttributes (w,h))
-      title = largeText w h (h//5) "Plants vs Numbers"
-      clickToStart = smallText w h (h*4//5) "Click to start"
-      children = [ title, clickToStart ]
+      heading = Html.h1 [] [ Html.text "Plants vs Numbers" ]
+      instructions = Html.p [] [ Html.text "Keep the numbers from crossing the line" ]
+      clickHandler = Html.Events.onClick StartGame
+      startButton = Html.button [ clickHandler ] [ Html.text "Start" ]
   in
-      Svg.svg
-        screenAttrs
-        children
+      div [ class "modal" ] [ heading, instructions, startButton ]
 
 
-renderPlayScreen : (Int,Int) -> Scene -> Html.Html Msg
-renderPlayScreen (w,h) scene =
-  let
-      windowSize = (w,h)
-  in
-     Svg.svg (svgAttributes windowSize)
-     [ renderTextLine (w//2) (h//5) ((normalFontSize w h)*2) "middle" scene.dummy []
-     ]
+renderPlayScreen : (Int,Int) -> Scene -> Html Msg
+renderPlayScreen windowSize scene =
+  Svg.svg (svgAttributes windowSize)
+  [ renderEnemy windowSize scene.enemy
+  ]
 
 
-renderGameoverScreen : (Int,Int) -> Html.Html Msg
+renderEnemy : (Int,Int) -> Enemy -> Svg Msg
+renderEnemy (w,h) enemy =
+  renderTextLine ((toFloat w)*enemy.posX |> floor) (h//2) (w//20) "middle" (toString enemy.number) []
+
+
+renderGameoverScreen : (Int,Int) -> Html Msg
 renderGameoverScreen (w,h) =
   let
-      endText = largeText w h (h//3) "Game over"
-      restartText = smallText w h (h//2) "Press SPACE to restart"
-      children = [ endText , restartText ]
+      heading = Html.h1 [] [ Html.text "Game over" ]
+      clickHandler = Html.Events.onClick StartGame
+      restartButton = Html.button [ clickHandler ] [ Html.text "Restart" ]
   in
-      Svg.svg
-        (svgAttributes (w,h))
-        children
+      div [ class "modal" ] [ heading, restartButton ]
 
 
 svgAttributes : (Int, Int) -> List (Attribute Msg)

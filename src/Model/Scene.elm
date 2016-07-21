@@ -5,8 +5,19 @@ import Time exposing (Time)
 
 
 type alias Scene =
-  { dummy : String }
+  { enemy : Enemy }
+
+type alias Enemy =
+  { number : Int
+  , posX : Float }
+
 
 initialScene : Scene
 initialScene =
-  { dummy = "hello world!" }
+  { enemy = newEnemy 5 }
+
+
+newEnemy : Int -> Enemy
+newEnemy number =
+  { number = number
+  , posX = 1 }

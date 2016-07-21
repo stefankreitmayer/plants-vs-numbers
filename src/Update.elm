@@ -20,13 +20,14 @@ update action ({ui,scene} as model) =
 
     Tick delta ->
       let
-          isGameOver = False --dummy
+          enemy' = scene.enemy |> stepEnemy delta
+          isGameOver = enemy'.posX <= 0
           screen' =
             if isGameOver then
                 GameoverScreen
             else
                 PlayScreen
-          scene' = scene --dummy
+          scene' = { scene | enemy = enemy' }
           ui' = { ui | screen = screen' }
       in
           ({ model | scene = scene', ui = ui' }, Cmd.none)
@@ -39,3 +40,8 @@ update action ({ui,scene} as model) =
 
     NoOp ->
       (model, Cmd.none)
+
+
+stepEnemy : Time -> Enemy -> Enemy
+stepEnemy delta enemy =
+  { enemy | posX = enemy.posX - 0.001 * delta }
