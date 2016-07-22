@@ -7,6 +7,8 @@ import Time exposing (Time)
 import Model exposing (..)
 import Model.Ui exposing (..)
 import Model.Scene exposing (..)
+import Model.Scene.Enemy exposing (..)
+import Model.Scene.Plant exposing (..)
 import Msg exposing (..)
 
 import Debug exposing (log)

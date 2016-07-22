@@ -4,37 +4,16 @@ import Char exposing (toCode)
 import Time exposing (Time)
 
 
+import Model.Scene.Enemy exposing (..)
+import Model.Scene.Plant exposing (..)
+
+
 type alias Scene =
   { enemy : Enemy
   , plant : Plant }
-
-type alias Enemy =
-  { number : Int
-  , posX : Float }
-
-type alias Plant =
-  { posX : Float
-  , health : Int }
 
 
 initialScene : Scene
 initialScene =
   { enemy = newEnemy 5
   , plant = newPlant }
-
-
-newEnemy : Int -> Enemy
-newEnemy number =
-  { number = number
-  , posX = 1 }
-
-
-newPlant : Plant
-newPlant =
-  { posX = 0.8
-  , health = 3 }
-
-
-isDead : Plant -> Bool
-isDead {health} =
-  health <= 0
