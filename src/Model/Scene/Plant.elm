@@ -8,9 +8,14 @@ type alias Plant =
 newPlant : Plant
 newPlant =
   { posX = 0.8
-  , health = 3 }
+  , health = plantInitialHealth }
 
 
 isDead : Plant -> Bool
 isDead {health} =
   health <= 0
+
+
+plantInitialHealth : Int
+plantInitialHealth =
+  3
