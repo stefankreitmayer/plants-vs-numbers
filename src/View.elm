@@ -57,7 +57,10 @@ renderEnemy (w,h) enemy =
 
 renderPlant : (Int,Int) -> Plant -> Svg Msg
 renderPlant (w,h) plant =
-  renderTextLine ((toFloat w)*plant.posX |> floor) (h//2) (w//20) "middle" "P" []
+  let
+      sprite = if plant.dead then "_" else "P"
+  in
+    renderTextLine ((toFloat w)*plant.posX |> floor) (h//2) (w//20) "middle" sprite []
 
 
 renderGameoverScreen : (Int,Int) -> Html Msg
