@@ -14,7 +14,7 @@ type alias Enemy =
 
 type alias Plant =
   { posX : Float
-  , dead : Bool }
+  , health : Int }
 
 
 initialScene : Scene
@@ -32,4 +32,9 @@ newEnemy number =
 newPlant : Plant
 newPlant =
   { posX = 0.8
-  , dead = False }
+  , health = 3 }
+
+
+isDead : Plant -> Bool
+isDead {health} =
+  health <= 0

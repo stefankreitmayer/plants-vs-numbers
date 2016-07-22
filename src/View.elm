@@ -56,9 +56,9 @@ renderEnemy (w,h) enemy =
 
 
 renderPlant : (Int,Int) -> Plant -> Svg Msg
-renderPlant (w,h) plant =
+renderPlant (w,h) ({posX,health} as plant) =
   let
-      sprite = if plant.dead then "_" else "P"
+      sprite = if isDead plant then "_" else "P"
   in
     renderTextLine ((toFloat w)*plant.posX |> floor) (h//2) (w//20) "middle" sprite []
 

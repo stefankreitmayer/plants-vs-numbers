@@ -45,9 +45,14 @@ update action ({ui,scene} as model) =
 
 
 stepEnemy : Time -> Plant -> Enemy -> (Enemy,Plant)
-stepEnemy delta plant enemy =
+stepEnemy delta plant ({posX} as enemy) =
   let
-      enemy' = { enemy | posX = enemy.posX - 0.0001 * delta }
-      plant' = { plant | dead = plant.dead || enemy.posX < plant.posX }
+      posX' = posX - 0.0001 * delta
+      collided = posX < plant.posX
+      (posX'',plant') = if collided && (not (isDead plant)) then
+                            (posX'+0.003*delta, {plant | health = plant.health - 1})
+                        else
+                            (posX',plant)
+      enemy' = { enemy | posX = posX'' }
   in
       (enemy',plant')
