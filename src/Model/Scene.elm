@@ -5,19 +5,29 @@ import Time exposing (Time)
 
 
 type alias Scene =
-  { enemy : Enemy }
+  { enemy : Enemy
+  , plant : Plant }
 
 type alias Enemy =
   { number : Int
   , posX : Float }
 
+type alias Plant =
+  { posX : Float }
+
 
 initialScene : Scene
 initialScene =
-  { enemy = newEnemy 5 }
+  { enemy = newEnemy 5
+  , plant = newPlant }
 
 
 newEnemy : Int -> Enemy
 newEnemy number =
   { number = number
   , posX = 1 }
+
+
+newPlant : Plant
+newPlant =
+  { posX = 0.8 }

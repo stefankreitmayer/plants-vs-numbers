@@ -46,12 +46,18 @@ renderPlayScreen : (Int,Int) -> Scene -> Html Msg
 renderPlayScreen windowSize scene =
   Svg.svg (svgAttributes windowSize)
   [ renderEnemy windowSize scene.enemy
+  , renderPlant windowSize scene.plant
   ]
 
 
 renderEnemy : (Int,Int) -> Enemy -> Svg Msg
 renderEnemy (w,h) enemy =
   renderTextLine ((toFloat w)*enemy.posX |> floor) (h//2) (w//20) "middle" (toString enemy.number) []
+
+
+renderPlant : (Int,Int) -> Plant -> Svg Msg
+renderPlant (w,h) plant =
+  renderTextLine ((toFloat w)*plant.posX |> floor) (h//2) (w//20) "middle" "P" []
 
 
 renderGameoverScreen : (Int,Int) -> Html Msg

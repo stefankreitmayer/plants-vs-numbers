@@ -44,4 +44,4 @@ update action ({ui,scene} as model) =
 
 stepEnemy : Time -> Enemy -> Enemy
 stepEnemy delta enemy =
-  { enemy | posX = enemy.posX - 0.001 * delta }
+  { enemy | posX = enemy.posX - 0.0001 * delta }
