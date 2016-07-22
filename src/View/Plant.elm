@@ -11,6 +11,6 @@ import Msg exposing (..)
 renderPlant : (Int,Int) -> Plant -> Svg Msg
 renderPlant (w,h) ({posX,health} as plant) =
   let
-      sprite = if isDead plant then "_" else "P"
+      sprite = if isDead plant then "_" else "P"++(toString health)
   in
     renderTextLine ((toFloat w)*plant.posX |> floor) (h//2) (w//20) "middle" sprite []

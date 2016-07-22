@@ -47,14 +47,19 @@ update action ({ui,scene} as model) =
 
 
 stepEnemy : Time -> Plant -> Enemy -> (Enemy,Plant)
-stepEnemy delta plant ({posX} as enemy) =
+stepEnemy delta plant ({posX,velX} as enemy) =
   let
-      posX' = posX - 0.0001 * delta
-      collided = posX < plant.posX
-      (posX'',plant') = if collided && (not (isDead plant)) then
-                            (posX'+0.003*delta, {plant | health = plant.health - 1})
+      velX' = velX + enemyAcceleration |> max -enemyTopSpeed
+      posX' = posX + velX * delta
+      hit = posX < plant.posX && not (isDead plant)
+      plant' = if hit then {plant | health = plant.health - 1} else plant
+      (posX'',velX'') = if hit && not (isDead plant') then
+                            ( plant.posX+enemyTopSpeed*delta
+                            , enemyTopSpeed * 10)
                         else
-                            (posX',plant)
-      enemy' = { enemy | posX = posX'' }
+                            (posX',velX')
+      enemy' = { enemy
+               | posX = posX''
+               , velX = velX'' }
   in
       (enemy',plant')
